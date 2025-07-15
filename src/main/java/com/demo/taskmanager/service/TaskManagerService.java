@@ -1,6 +1,7 @@
 package com.demo.taskmanager.service;
 
 
+import com.demo.taskmanager.enums.TaskStatus;
 import com.demo.taskmanager.model.TaskManager;
 import com.demo.taskmanager.repository.TaskManagerRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,14 +26,22 @@ public class TaskManagerService {
         return repository.findAll();
     }
 
-    public TaskManager UpdateTaskStatus(UUID id, TaskManager task){
-        TaskManager updateTask = repository.findById(id)
-                                            .orElseThrow(() -> new EntityNotFoundException("Task not found"));
-        updateTask.setTitle(task.getTitle());
-        updateTask.setDescription(task.getDescription());
-        updateTask.setStatus(task.getStatus());
-        return repository.save(updateTask);
+    public TaskManager UpdateTaskStatus(UUID id, TaskStatus newStatus){
+        TaskManager task = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        task.setStatus(newStatus);
+        return repository.save(task);
     }
+
+//    public TaskManager UpdateTaskStatus(UUID id, TaskManager task){
+//        TaskManager updateTask = repository.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("Task not found"));
+//        updateTask.setTitle(task.getTitle());
+//        updateTask.setDescription(task.getDescription());
+//        updateTask.setStatus(task.getStatus());
+//        return repository.save(updateTask);
+//    }
 
     public void deleteTask(UUID id){
         repository.deleteById(id);

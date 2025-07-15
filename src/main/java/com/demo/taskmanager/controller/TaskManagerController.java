@@ -1,6 +1,8 @@
 package com.demo.taskmanager.controller;
 
+import com.demo.taskmanager.enums.TaskStatus;
 import com.demo.taskmanager.model.TaskManager;
+import com.demo.taskmanager.model.TaskManagerStatusUpdateDTO;
 import com.demo.taskmanager.service.TaskManagerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +30,13 @@ public class TaskManagerController {
         return service.getAllTasks();
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<TaskManager> updateTask(@PathVariable UUID id, @Valid @RequestBody TaskManager task) {
-        return ResponseEntity.ok(service.UpdateTaskStatus(id, task));
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskManager> updateTask(@PathVariable UUID id, @Valid @RequestBody TaskManagerStatusUpdateDTO request) {
+        return ResponseEntity.ok(service.UpdateTaskStatus(id, request.getStatus()));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
-        System.out.println("id" + id);
         service.deleteTask(id);
         return ResponseEntity.noContent().build();
     }

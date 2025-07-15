@@ -21,7 +21,7 @@ public class TaskManager {
     @GeneratedValue
     private UUID id;
 
-    @NotBlank(message = "Title must not be blank")
+//    @NotBlank(message = "Title must not be blank")
     private String title;
 
     private String description;
